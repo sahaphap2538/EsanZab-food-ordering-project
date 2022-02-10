@@ -1,0 +1,222 @@
+.App {
+  text-align: start;
+  font-family: 'Bai Jamjuree', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.buttonMain, .buttonMain:visited  {
+    background-color: #FA4A0C;
+    color: #FFFF;
+    width: 100%;
+    height: 50px;
+    border-radius: 30px;
+    border-color: #FA4A0C;
+    font-size: 20px;
+}
+
+.buttonMain:hover,.buttonMain:active, .buttonMain:link {
+    opacity: 0.8 ;
+    background-color: #FA4A0C;
+    border-color: #FA4A0C;
+    color: #FFFF;
+}
+
+.buttonEdit, .buttonEdit:visited {
+  text-align: center;
+  width: 60px;
+  height: 30px;
+  background-color: #FBBC05 ;
+  color: #000000;
+  border-radius: 30px;
+}
+
+.buttonEdit:hover,.buttonEdit:active,.buttonEdit:link {
+  opacity: 0.8;
+  background-color: #FBBC05;
+}
+
+.buttonCreateFood, .buttonCreateFood:visited {
+  display: flex;
+  justify-content:'center';
+  text-align: center;
+  color: white;
+  border-radius: 30px;
+  height: 32px;
+  width: 100%;
+  background-color: #34A853;
+}
+
+.buttonCreateFood:hover, .buttonCreateFood:active, .buttonCreateFood:link {
+  opacity: 0.8;
+  background-color: #34A853;
+  color: white;
+}
+
+.input{
+  height: 50px;
+  border:1px solid #A0A0A0;
+  border-radius:10px ;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.title {
+  font-style: normal;
+  font-weight:600;
+  font-size: 24px;
+  color: #000000;
+}
+
+.titleTable {
+  margin-left: 10px;
+  font-style: normal;
+  font-weight:600;
+  font-size: 24px;
+}
+
+.text {
+  font-size: 18px;
+}
+
+.itemIn {
+  margin: 10px 0px;
+}
+
+.itemOut {
+  margin: 15px 0px;
+}
+
+.itemSide {
+  margin: 0 5px
+}
+
+.adminPage {
+  background-color: #EDEDED ;
+  margin:0px 0px;
+  margin-top: 50px;
+  padding: 0px 0px;
+  width: 100vw;
+}
+
+.clientPage {
+  margin-top: 50px;
+}
+
+.navbar {
+  justify-content: space-between;
+  position: fixed;
+  top:0;
+  width: 100%;
+  height: 50px;
+  color: white;
+  background-color:#FA4A0C;
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2); 
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 256px;
+  height:100vh;
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
+.adminContentContainer {
+  justify-content:center;
+  padding: 5px;
+}
+.adminContentBox {
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0,0.2);
+  background-color: white;
+  height:100%;
+  border-radius: 10px;
+  margin:0px 5px
+}
+
+.headerSidebar {
+  background-color:#FA4A0C;
+  height: 100px;
+}
+
+.titleHeaderSidebar {
+  margin:38px auto;
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.iconHeader {
+  width: 24px;
+  height: 24px;
+  margin-top: 10px;
+}
+
+.iconUser {
+  width: 28px;
+  height: 28px;
+  margin-top: 10px;
+}
+
+.iconSidebar {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+}
+
+.iconSmall {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 0 0;
+}
+
+.foodImageAdmin {
+  width: 60px;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  border-radius: 15px;
+}
+
