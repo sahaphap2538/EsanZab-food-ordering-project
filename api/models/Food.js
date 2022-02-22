@@ -18,7 +18,6 @@ module.exports = (Sequelize, DataTypes) => {
         status : {
             type : DataTypes.STRING
         },
-
     },{
         tableName : 'food',
         timestamps : false

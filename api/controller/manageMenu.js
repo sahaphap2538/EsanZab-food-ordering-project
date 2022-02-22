@@ -10,20 +10,22 @@ const createFood = async (req, res) => {
                 picture: null,
                 cloudinary_id: null,
                 category: req.body.category,
-                status: req.body.status
+                status: req.body.status,
             })
             res.status(201).send(newFoodNotImage)
+        } else {
+            const imageData = await cloudinary.uploader.upload(req.file.path)
+            const newFood = await db.Food.create({
+                name: req.body.name,
+                price: req.body.price,
+                picture: imageData.secure_url,
+                cloudinary_id: imageData.public_id,
+                category: req.body.category,
+                status: req.body.status,
+            })
+            res.status(201).send(newFood)
         }
-        const imageData = await cloudinary.uploader.upload(req.file.path)
-        const newFood = await db.Food.create({
-            name: req.body.name,
-            price: req.body.price,
-            picture: imageData.secure_url,
-            cloudinary_id: imageData.public_id,
-            category: req.body.category,
-            status: req.body.status
-        })
-        res.status(201).send(newFood)
+
     } catch (err) {
         console.log(err)
     }
@@ -99,11 +101,11 @@ const deleteFood = async (req, res) => {
 
         if (targetFood) {
             await targetFood.destroy()
-            
+
             if (targetFood.cloudinary_id !== null) {
                 await cloudinary.uploader.destroy(targetFood.cloudinary_id)
             }
-            
+
             res.status(204).send({ message: 'Delete already.' })
         } else {
             res.status(404).send({ message: 'Food not found.' })
@@ -118,5 +120,5 @@ module.exports = {
     createFood,
     getFood,
     updateFood,
-    deleteFood
+    deleteFood,
 }

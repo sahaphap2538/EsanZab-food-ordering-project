@@ -3,10 +3,11 @@ const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const registerUser = async (req, res) => {
-    const { username, password, fname, lname, gender, birthday, points, role } = req.body
+    const { username, password, fname, lname, gender, birthday, role } = req.body
     const targetUser = await db.User.findOne({
         where: {
-            username: username
+            username: username,
+            role: role
         }
     })
     if (targetUser) {
@@ -23,7 +24,7 @@ const registerUser = async (req, res) => {
                 lname: lname,
                 gender: gender,
                 birthday: birthday,
-                points: points,
+                points: 0,
                 role: role
             }
         }, {
@@ -65,7 +66,37 @@ const loginUser = async (req, res) => {
     }
 }
 
+const updatePoints = async (req, res) => {
+    const { id } = req.params
+    const targetUser = await db.User.findOne({
+        where: {
+            id : id
+        }
+    })
+    if (targetUser) {
+        await targetUser.update({
+           points : req.body.points
+        })
+        res.status(200).send({ message: "updating is success", data : targetUser });
+    } else {
+        res.status(404).send({ message: 'Cart not found.' })
+    }
+}
+
+const getPoints = async (req, res) => {
+    const { id } = req.params
+    const targetUser = await db.User.findOne({
+        where: {
+            id : id
+        }
+    })
+    res.status(200).send(targetUser)
+}
+
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    updatePoints,
+    getPoints
 }

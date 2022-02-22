@@ -3,13 +3,13 @@ import { Button, Row, Col, Image } from 'antd'
 import Vector from '../../assets/Vector.png'
 import Bell from '../../assets/Bell.png'
 import SidebarAdmin from './SidebarAdmin'
-import localStorageServices from '../../services/localStorageServices';
+import localStorageUserServices from '../../services/localStorageUserServices';
 import styles from './NavbarAdmin.module.css'
 
-const { getName } = localStorageServices
+const { getUserName } = localStorageUserServices
 
 function NavbarAdmin(props) {
-  const adminName = getName()
+  const adminName = getUserName()
 
   const onClickShowSidebar = () => {
     props.setIsHideSidebar(prev => !prev)

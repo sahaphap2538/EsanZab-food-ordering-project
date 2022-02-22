@@ -56,6 +56,7 @@ function MenuCreate(props) {
             name='createMenu'
             labelCol={{ span: 24 }}
             wrapperCol={{ span: 24 }}
+            
             onFinish={onFinishCreateMenu}
           >
             <Form.Item

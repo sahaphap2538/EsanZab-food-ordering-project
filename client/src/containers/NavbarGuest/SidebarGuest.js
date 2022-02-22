@@ -7,15 +7,40 @@ import BasketOrange from '../../assets/BasketOrange.png'
 import UserOrange from '../../assets/UserOrange.png'
 import Contact from '../../assets/Contact.png'
 import ArrowLeft from '../../assets/ArrowLeft.png'
+import localStorageGuestServices from '../../services/localStorageGuestServices'
+import axios from '../../config/axios';
+
+const {setGuestID, getGuestID } = localStorageGuestServices
 
 function SidebarGuest(props) {
     const location = useLocation()
     const navigate = useNavigate()
-   
-    const onClickSidebar = (e) => {
-        props.onClickShowSidebar()
-        navigate(e.key)
-    } 
+
+    const onClickSidebar = async (e) => {
+        if (e.key === '/menu') {
+            props.onClickShowSidebar()
+            if (getGuestID()) {
+                navigate('/menu')
+            } else {
+                await axios.post('/guest/login', {
+                    fname: 'Guest',
+                    role: 'guest'
+                })
+                    .then(res => {
+                        console.log(res.data)
+                        setGuestID(res.data.id)
+                        navigate('/menu')
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
+           
+        } else {
+            props.onClickShowSidebar()
+            navigate(e.key)
+        }
+    }
 
     return (
         <Row className='sidebar'>

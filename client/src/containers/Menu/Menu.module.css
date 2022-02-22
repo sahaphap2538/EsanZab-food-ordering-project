@@ -1,0 +1,21 @@
+.site_custom_tab_bar {
+    z-index: 1;
+    background: #fff;
+    height: 50px;
+}
+
+.list_menu {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    height: 90px;
+}
+
+.title_food {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.description_food {
+    font-size: 16px;
+    color: #FA4A0C;
+}

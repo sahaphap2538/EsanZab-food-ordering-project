@@ -3,15 +3,19 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom'
 import './index.css';
 import 'antd/dist/antd.min.css';
+import "@reach/dialog/styles.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UserProvider } from './context/UserContext'
+import { CartProvider } from './context/CartContext'
 
 ReactDOM.render(
   <BrowserRouter>
-    <UserProvider>
-      <App/>
-    </UserProvider>
+    <CartProvider>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </CartProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );

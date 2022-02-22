@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './AdminLogin.module.css'
-import localStorageServices from '../../services/localStorageServices';
+import localStorageUserServices from '../../services/localStorageUserServices';
 import { useUserContext } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { Row, Col, Typography, Form, Input, notification, Button } from 'antd'
 import axios from '../../config/axios'
 
-const { setToken } = localStorageServices
+const { setToken } = localStorageUserServices
 const { Text } = Typography
 const { Item } = Form
 const { Password } = Input

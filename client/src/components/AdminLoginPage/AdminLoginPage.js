@@ -4,7 +4,7 @@ import AdminLogin from '../../containers/AdminLogin/AdminLogin';
 function AdminLoginPage() {
   
   return (
-    <div className='adminPage'>
+    <div className='adminPage' style={{height:'100vh'}}>
       <AdminLogin />
     </div>
   )

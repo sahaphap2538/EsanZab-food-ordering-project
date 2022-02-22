@@ -17,7 +17,7 @@ function ManageMenuContent() {
       title: 'ภาพอาหาร',
       dataIndex: 'picture',
       key: 'picture',
-      render: link => (<Image className='foodImageAdmin' src={link} />)
+      render: link => (<Image className='foodImage' src={link} />)
     },
     {
       title: 'ชื่ออาหาร',

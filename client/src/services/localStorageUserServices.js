@@ -26,13 +26,20 @@ const getRole = () => {
     return 'guest'
 }
 
-const getName = () => {
+const getUserName = () => {
     const token = getToken()
     if (token) {
         const fname = jwt_decode(token).fname 
         return fname
     }
-    return 
+}
+
+const getUserID = () => {
+    const token = getToken()
+    if (token){
+        const UserID = jwt_decode(token).id
+        return Number(UserID)
+    }
 }
 
 const localStorageServices = {
@@ -40,7 +47,8 @@ const localStorageServices = {
     getToken,
     removeToken,
     getRole,
-    getName
+    getUserName,
+    getUserID
 }
 
 export default localStorageServices

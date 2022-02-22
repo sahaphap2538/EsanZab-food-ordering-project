@@ -1,7 +1,7 @@
 import axios from 'axios'
-import localStorageServices from '../services/localStorageServices'
+import localStorageUserServices from '../services/localStorageUserServices'
 
-const { getToken, removeToken } = localStorageServices
+const { getToken, removeToken } = localStorageUserServices
 
 axios.defaults.baseURL = "http://localhost:8000"
 

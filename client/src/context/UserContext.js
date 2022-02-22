@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from 'react'
 import { node } from 'prop-types'
-import localStorageServices from '../services/localStorageServices'
+import localStorageUserServices from '../services/localStorageUserServices'
 
-const { getRole } = localStorageServices
+const { getRole } = localStorageUserServices
 
 const UserContext = createContext({})
 

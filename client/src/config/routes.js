@@ -11,6 +11,7 @@ import RegisterPage from "../components/RegisterPage/RegisterPage";
 import ThanksPage from "../components/ThanksPage/ThanksPage";
 import UserDiscountPage from "../components/UserDiscountPage/UserDiscountPage";
 import UserRewardPage from "../components/UserRewardPage/UserRewardPage";
+import FoodModal from "../containers/Menu/FoodModal";
 
 const components = {
     adminLogin: {
@@ -45,6 +46,10 @@ const components = {
         url: "/menu",
         component: MenuPage
     },
+    food: {
+        url: "/food/:id",
+        component: FoodModal
+    },
     order: {
         url: "/order",
         component: OrderPage
@@ -77,6 +82,7 @@ const config = {
             components.order,
             components.thaks,
             components.adminLogin,
+            components.food
         ],
         redirectRoutes: "/"
     },
@@ -88,6 +94,7 @@ const config = {
             components.discount,
             components.userDiscount,
             components.userReward,
+            components.food
         ],
         redirectRoutes: "/menu"
     },

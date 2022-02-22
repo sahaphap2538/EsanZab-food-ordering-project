@@ -2,13 +2,15 @@ import React from 'react';
 import facebook from '../../assets/FacebookLogo.png'
 import google from '../../assets/GoogleLogo.png'
 import styles from './Login.module.css'
-import { NavLink, Link, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { Row, Col, Typography, Form, Input, Button, Image, notification } from 'antd'
-import axios from 'axios';
+import axios from '../../config/axios';
 import { useUserContext } from '../../context/UserContext';
-import localStorageServices from '../../services/localStorageServices';
+import localStorageUserServices from '../../services/localStorageUserServices';
+import localStorageGuestServices from '../../services/localStorageGuestServices'
 
-const { setToken } = localStorageServices
+const { setGuestID, getGuestID } = localStorageGuestServices
+const { setToken } = localStorageUserServices
 const { Text } = Typography
 const { Item } = Form
 const { Password } = Input
@@ -17,8 +19,27 @@ function Login() {
     const { userAction } = useUserContext()
     const navigate = useNavigate()
 
-    const loginWithFacebook = async() => {
-      window.open('http://localhost:8000/auth/facebook','_self')
+    const loginWithFacebook = async () => {
+        window.open('http://localhost:8000/auth/facebook', '_self')
+    }
+
+    const onClickLoginGuest = async () => {
+        if (getGuestID()) {
+            navigate('/menu')
+        } else {
+            await axios.post('/guest/login', {
+                fname: 'Guest',
+                role: 'guest'
+            })
+                .then(res => {
+                    console.log(res.data)
+                    setGuestID(res.data.id)
+                    navigate('/menu')
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
     }
 
     const onFinishLogin = async (values) => {
@@ -29,7 +50,7 @@ function Login() {
             role: 'user'
         })
             .then(res => {
-                console.log(res)
+                console.log(res.data)
                 setToken(res.data.token)
                 userAction.setRole('user')
                 notification.success({
@@ -134,11 +155,9 @@ function Login() {
                     <Col className='text'>หรือ</Col>
                 </Row>
                 <Row className='itemOut'>
-                    <Link to='/menu' style={{ width: '100%' }}>
-                        <Button type='text' className='buttonMain'>
-                            สั่งอาหารโดยไม่เข้าสู่ระบบ
-                        </Button>
-                    </Link>
+                    <Button type='text' className='buttonMain' onClick={onClickLoginGuest}>
+                        สั่งอาหารโดยไม่เข้าสู่ระบบ
+                    </Button>
                 </Row>
             </Col>
         </Row>

@@ -4,12 +4,12 @@ import { Button, Row, Col, Image } from 'antd'
 import Vector from '../../assets/Vector.png'
 import Basket from '../../assets/Basket.png'
 import SidebarUser from './SidebarUser';
-import localStorageServices from '../../services/localStorageServices';
+import localStorageUserServices from '../../services/localStorageUserServices';
 
-const { getName } = localStorageServices
+const { getUserName } = localStorageUserServices
 
 function NavbarUser() {
-    const username = getName()
+    const username = getUserName()
     const [isShowSidebar, setIsShowSidebar] = useState(true)
 
     const onClickShowSidebar = () => {

@@ -62,7 +62,6 @@ function Register() {
             lname: values.lname,
             gender: values.gender,
             birthday: values.birthday,
-            points: 0,
             role: 'user'
         })
             .then(res => {

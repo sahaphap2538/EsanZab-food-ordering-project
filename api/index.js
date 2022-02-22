@@ -9,6 +9,9 @@ const jwtAuthenication = passport.authenticate('jwt', { session: false })
 const userRoutes = require('./routes/user')
 const authRoutes = require("./routes/auth")
 const manageMenuRoutes = require('./routes/manageMenu')
+const guestRoutes = require('./routes/guest')
+const cartRoutes = require('./routes/cart')
+const OrderRoutes = require('./routes/order')
 
 
 require('dotenv').config()
@@ -31,9 +34,12 @@ app.use(cookieSession({
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use('/guest', guestRoutes)
 app.use('/user', userRoutes)
 app.use('/auth', authRoutes)
 app.use('/manage_menu', manageMenuRoutes)
+app.use('/cart', cartRoutes)
+app.use('/order', OrderRoutes)
 
 db.sequelize.sync({ force: false })
     .then(() => {
