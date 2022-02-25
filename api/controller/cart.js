@@ -67,6 +67,25 @@ const updateTotal = async (req, res) => {
     }
 }
 
+const updateDiscount = async (req, res) => {
+    const targetId = Number(req.params.id)
+    const targetCart = await db.Cart.findOne({
+        where: {
+            id: targetId
+        }
+    })
+
+    if (targetCart){
+        await targetCart.update({
+            DiscountId: req.body.DiscountId,
+            discount: req.body.discount
+        })
+        res.status(200).send({ message: "updating is success", data : targetCart });
+    } else {
+        res.status(404).send({ message: 'Cart not found.' })
+    }
+}
+
 const deleteCartItem = async (req, res) => {
     try {
         const { CartId, FoodId } = req.params
@@ -107,5 +126,6 @@ module.exports = {
     updateCart,
     deleteCartItem,
     getFood,
-    updateTotal
+    updateTotal,
+    updateDiscount
 }

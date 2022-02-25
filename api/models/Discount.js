@@ -4,10 +4,10 @@ module.exports = (Sequelize, DataTypes) => {
             type : DataTypes.STRING,
         },
         quantity : {
-            type : DataTypes.INTEGER
+            type : DataTypes.STRING
         },
         percent : {
-            type : DataTypes.STRING,
+            type : DataTypes.INTEGER,
         },
         max_discount : {
             type : DataTypes.DECIMAL,
@@ -16,7 +16,7 @@ module.exports = (Sequelize, DataTypes) => {
             type : DataTypes.DECIMAL,
         },
         expr : {
-            type : DataTypes.DATE,
+            type : DataTypes.STRING,
         },
         status : {
             type : DataTypes.STRING
@@ -28,6 +28,9 @@ module.exports = (Sequelize, DataTypes) => {
 
     model.associate = models => {
         model.hasMany(models.Order_payment, {
+            foreignKey: "DiscountId"
+        })
+        model.hasMany(models.Cart, {
             foreignKey: "DiscountId"
         })
         model.belongsToMany(models.User, {

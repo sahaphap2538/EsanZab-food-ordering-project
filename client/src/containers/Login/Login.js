@@ -53,10 +53,10 @@ function Login() {
                 console.log(res.data)
                 setToken(res.data.token)
                 userAction.setRole('user')
-                notification.success({
-                    message: 'เข้าสู่ระบบสำเร็จ'
-                })
                 navigate('/menu')
+                notification.success({
+                    message: res.data.message
+                })
             })
             .catch(err => {
                 console.error(err)

@@ -17,6 +17,7 @@ const registerUser = async (req, res) => {
         const hashPassword = bcryptjs.hashSync(password, salt)
         const newUser = await db.Cart.create({
             total: 0,
+            discount: 0,
             User: {
                 username: username,
                 password: hashPassword,

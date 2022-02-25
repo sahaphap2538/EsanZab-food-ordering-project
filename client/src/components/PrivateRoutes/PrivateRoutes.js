@@ -27,6 +27,7 @@ function PrivateRoutes() {
             return (<NavbarGuest />)
         }
     }
+
     return (
         <>
             <Routes location={backgroundLocation || location}>

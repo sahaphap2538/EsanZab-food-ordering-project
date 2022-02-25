@@ -1,6 +1,11 @@
 module.exports = (Sequelize, DataTypes) => {
     const model = Sequelize.define("Cart", {
-        total: DataTypes.DECIMAL
+        total : {
+            type : DataTypes.DECIMAL
+        },
+        discount : {
+            type : DataTypes.DECIMAL
+        },
     },{
         tableName : 'cart',
         timestamps : false
@@ -13,6 +18,9 @@ module.exports = (Sequelize, DataTypes) => {
         })
         model.belongsTo(models.User, {
             foreignKey: "UserId"
+        })
+        model.belongsTo(models.Discount, {
+            foreignKey: "DiscountId"
         })
     }
 

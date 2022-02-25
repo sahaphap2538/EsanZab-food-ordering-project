@@ -22,14 +22,14 @@ function Order() {
     const [isShowPromotionMadal, setIsShowPromotionModal] = useState(false)
     const [isShowThanksMadal, setIsShowThanksModal] = useState(false)
     const [point, setPoint] = useState(0)
-
+ 
     useEffect(() => {
         fetchCartData()
     }, [])
 
-    const gotoPromotion = () => {
+    const onClickPromotion = () => {
         if (getRole() === 'user') {
-            navigate('/discount')
+            navigate(`/discount`)
         } else {
             setIsShowPromotionModal(true)
         }
@@ -116,8 +116,20 @@ function Order() {
         if (foodInCart.length === 0) {
             navigate('/menu')
         } else {
+            // update for clear all in cart to null
             await axios.put(`/cart/total/${userId}`, {
                 total: 0
+            })
+                .then(res => {
+                    console.log(res.data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+            await axios.put(`/cart/discount/${cart.id}`, {
+                DiscountId: null,
+                discount: 0
             })
                 .then(res => {
                     console.log(res.data)
@@ -136,19 +148,32 @@ function Order() {
                     })
             })
 
-            if (Number(cart.total) > 0 && getRole() === 'user') {
+            const total = Number(cart.total) - Number(cart.discount)
+            // set Points of user
+            if (total > 0  &&  getRole() === 'user') {
                 await axios.get(`/user/points/${userId}`)
                     .then(async (res) => {
                         console.log(res.data.points)
                         await axios.put(`/user/points/${userId}`, {
-                            points: Number(res.data.points) + Number(cart.total)
+                            points: Number(res.data.points) + total
                         })
-                            .then( res => {
+                            .then(res => {
                                 console.log(res.data)
                                 setPoint(res.data.data.points)
                             })
-                })
+                    })
             }
+
+            // await axios.put(`/discount/quantity/${cart.DiscountId}`, {
+            //     quantity: 
+            // })
+            //     .then(res => {
+            //         console.log(res.data)
+            //     })
+            //     .catch(err => {
+            //         console.log(err)
+            //     })
+
 
             await axios.post('/order', {
                 pay_method: values.payment,
@@ -156,7 +181,9 @@ function Order() {
                 table_no: Number(values.tableNo),
                 ordered_datetime: now,
                 UserId: userId,
-                Food: foodInCart
+                Food: foodInCart,
+                DiscountId: cart.DiscountId,
+                discount: cart.discount
             })
                 .then(res => {
                     console.log(res.data)
@@ -223,7 +250,7 @@ function Order() {
                                     <div className='title'>ส่วนลด</div>
                                 </Row>
                                 <Row>
-                                    <Button className='buttonPromotion' type='ghost' onClick={gotoPromotion} style={{ margin: '10px 0px' }}>
+                                    <Button className='buttonPromotion' type='ghost' onClick={onClickPromotion} style={{ margin: '10px 0px' }}>
                                         <Row justify='center'>
                                             <Col span={24}>
                                                 <Image src={Reward} preview={false} style={{ padding: '0px 10px' }} />
@@ -296,14 +323,16 @@ function Order() {
                                 </Row>
                                 <Row justify='end' >
                                     <Col >
-                                        <p className='title subtitle'>{`รวมสุทธิ ${cart.total} บาท`}</p>
+                                        <div className='text'>{`รวม ${cart.total} บาท`}</div>
+                                        <div className='text' style={{fontSize:'16px'}}>{`ลด ${cart.discount} บาท`}</div>
+                                        <div className='title subtitle' style={{borderTop:'solid'}}>{`รวมสุทธิ ${Number(cart.total) - Number(cart.discount)} บาท`}</div>
                                     </Col>
                                 </Row>
                             </Col>
                         </Row>
                         <Form.Item >
                             <SentMenuButton />
-                            <ModalThanks isShowThanksMadal={isShowThanksMadal} setIsShowThanksModal={setIsShowThanksModal} point={point}/>
+                            <ModalThanks isShowThanksMadal={isShowThanksMadal} setIsShowThanksModal={setIsShowThanksModal} point={point} />
                         </Form.Item>
                     </Form>
                 </Col>

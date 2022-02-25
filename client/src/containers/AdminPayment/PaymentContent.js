@@ -1,18 +1,103 @@
-import React from 'react';
-import { Row, Col } from 'antd'
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Table, Button } from 'antd'
 import OrderDetails from './OrderDetails';
+import axios from '../../config/axios';
 
 function PaymentContent() {
+  const [orderList, setOrderList] = useState([])
+  const [details, setDetails] = useState('')
+
+  const columns = [
+    {
+      title: 'ลำดับที่',
+      key: 'sequence',
+      render: (text, record) => (
+        orderList.indexOf(record) + 1
+      )
+    },
+    {
+      title: 'หมายเลขโต๊ะ',
+      key: 'tableNo',
+      render: (text, record) => (
+        Number(record.Order.table_no)
+      ),
+      sorter: (a, b) => a.Order.table_no - b.Order.table_no,
+    },
+    {
+      title: 'ชื่อลูกค้า',
+      key: 'fname',
+      render: (text, record) => (
+        record.Order.User.fname
+      )
+    },
+    {
+      title: 'รายละเอียดการชำระเงิน',
+      key: 'details',
+      render: (text, record) => (
+        <Button
+          type='text'
+          className='buttonCreateFood'
+          style={{ backgroundColor: '#34A853' }}
+          onClick={() => onclickOrderDetails(record.id)}
+        >
+          <p style={{ width: '100%' }}>รายละเอียดการชำระเงิน</p>
+        </Button>
+      )
+    },
+  ]
+
+  useEffect(() => {
+    fetchOrderList()
+  }, [])
+
+  const fetchOrderList = async () => {
+    const response = await axios.get('/order')
+    const newOrder = [...response.data].filter(item => item.Order.status === 'served')
+    //change 'id' to 'key' for uniqe in antd <Table/>
+    newOrder.forEach(item => {
+      item.key = item.id
+    })
+    setOrderList(newOrder)
+    console.log(newOrder)
+    if (newOrder.length !== 0) {
+      const initailDetails = newOrder[0]
+      console.log(initailDetails)
+      setDetails(initailDetails)
+    }
+  }
+
+  const onclickOrderDetails = (id) => {
+    const OrderDetailsById = orderList.find(item => item.id === Number(id))
+    setDetails(OrderDetailsById)
+  }
+
   return (
     <Row className='adminContentContainer'>
-      <Col span={17} className='adminContentBox'>
-      
+      <Col span={15} className='adminContentBox'>
+        <Row justify='center' className='itemOut'>
+          <Col span={24}>
+            <div className='titleTable'>การชำระเงิน</div>
+          </Col>
+        </Row>
+        <Row justify='center'>
+          <Col span={24}>
+            {orderList.length === 0 ? null :
+              <Table
+                dataSource={orderList}
+                columns={columns}
+                size='middle'
+                pagination={{ pageSize: 15 }}
+              />
+            }
+          </Col>
+        </Row>
       </Col>
-      <Col span={6} className='adminContentBox' >
-        <OrderDetails/>
+      <Col span={8} className='adminContentBox' style={{ height: '100vh' }}>
+        {details === '' ? null : <OrderDetails details={details} fetchOrderList={fetchOrderList} />}
       </Col>
     </Row>
   )
 }
 
 export default PaymentContent;
+

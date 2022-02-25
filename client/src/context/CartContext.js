@@ -16,6 +16,7 @@ export function useCartContext() {
 const initailCart = {
    id: '',
    total: '',
+   discount:'',
    Food: []
 }
 

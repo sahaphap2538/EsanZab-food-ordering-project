@@ -7,6 +7,7 @@ router.get('/', cartController.getCart )
 router.get('/food', cartController.getFood)
 router.put('/', cartController.updateCart )
 router.put('/total/:id', cartController.updateTotal)
+router.put('/discount/:id', cartController.updateDiscount)
 router.delete('/:CartId/:FoodId', cartController.deleteCartItem )
 
 module.exports = router

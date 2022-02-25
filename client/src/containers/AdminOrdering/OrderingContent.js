@@ -1,184 +1,99 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table, Image, Button, notification } from 'antd'
+import { Row, Col, Table, Button } from 'antd'
+import OrderDetails from './OrderDetails';
 import axios from '../../config/axios';
-import Delete from '../../assets/Delete.png'
-import Plus from '../../assets/Plus.png'
-
 
 function OrderingContent() {
-  const [foodList, setFoodList] = useState([])
-  const [isShowCreate, setIsShowCreate] = useState(true)
-  const [editID, setEditID] = useState('')
+  const [orderList, setOrderList] = useState([])
+  const [details, setDetails] = useState('')
 
   const columns = [
     {
-      title: 'ภาพอาหาร',
-      dataIndex: 'picture',
-      key: 'picture',
-      render: link => (<Image className='foodImage' src={link} />)
-    },
-    {
-      title: 'ชื่ออาหาร',
-      dataIndex: 'name',
-      key: 'name'
-    },
-    {
-      title: 'ราคา',
-      dataIndex: 'price',
-      key: 'price',
-      sorter: (a, b) => a.price - b.price,
-    },
-    {
-      title: 'หมวดหมู่',
-      dataIndex: 'category',
-      key: 'category',
-      filters: [
-        {
-          text: 'เมนูแนะนำ',
-          value: 'เมนูแนะนำ',
-        },
-        {
-          text: 'อาหารคาว',
-          value: 'อาหารคาว',
-        },
-        {
-          text: 'ของหวาน',
-          value: 'ของหวาน',
-        },
-        {
-          text: 'เครื่องดื่ม',
-          value: 'เครื่องดื่ม',
-        },
-      ],
-      onFilter: (value, record) => record.category === value,
-    },
-    {
-      title: 'สถานะ',
-      dataIndex: 'status',
-      key: 'status',
-      filters: [
-        {
-          text: 'มีสินค้า',
-          value: 'มีสินค้า',
-        },
-        {
-          text: 'สินค้าหมด',
-          value: 'สินค้าหมด',
-        },
-      ],
-      onFilter: (value, record) => record.status === value,
-      render: text => {
-        if (text === 'สินค้าหมด') {
-          return (<p style={{ color: 'red' }}>สินค้าหมด</p>)
-        } else {
-          return 'มีสินค้า'
-        }
-      }
-    },
-    {
-      title: 'แก้ไข',
-      key: 'edit',
+      title: 'ลำดับที่',
+      key: 'sequence',
       render: (text, record) => (
-        <Button
-          type='text'
-          className='buttonEdit'
-          onClick={() => onclickEditFoodList(record.id)}
-        >
-          แก้ไข
-        </Button>
+        orderList.indexOf(record) + 1
       )
     },
     {
-      title: 'ลบ',
-      key: 'delete',
+      title: 'หมายเลขโต๊ะ',
+      key: 'tableNo',
+      render: (text, record) => (
+        Number(record.Order.table_no)
+      ),
+      sorter: (a, b) => a.Order.table_no - b.Order.table_no,
+    },
+    {
+      title: 'ชื่อลูกค้า',
+      key: 'fname',
+      render: (text, record) => (
+        record.Order.User.fname
+      )
+    },
+    {
+      title: 'รายละเอียดการสั่ง',
+      key: 'details',
       render: (text, record) => (
         <Button
           type='text'
-          onClick={() => deleteFoodList(record.id)}
+          className='buttonCreateFood'
+          style={{ backgroundColor: '#1877F2' }}
+          onClick={() => onclickOrderDetails(record.id)}
         >
-          <Image src={Delete} className='iconSmall' preview={false} />
+          <p style={{ width: '100%' }}>รายละเอียดอาหาร</p>
         </Button>
       )
     },
   ]
 
   useEffect(() => {
-    fetchFoodList()
+    fetchOrderList()
   }, [])
 
-  const fetchFoodList = async () => {
-    const response = await axios.get('/manage_menu')
-    const newFood = [...response.data]
+  const fetchOrderList = async () => {
+    const response = await axios.get('/order')
+    const newOrder = [...response.data].filter(item => item.Order.status === 'ordered')
     //change 'id' to 'key' for uniqe in antd <Table/>
-    newFood.forEach(item => {
+    newOrder.forEach(item => {
       item.key = item.id
     })
-    setFoodList(newFood)
-    console.log(newFood)
+    setOrderList(newOrder)
+    console.log(newOrder)
+    if (newOrder.length !== 0) {
+      const initailDetails = newOrder[0]
+      console.log(initailDetails)
+      setDetails(initailDetails)
+    }
   }
 
-  const deleteFoodList = async (id) => {
-    await axios.delete(`/manage_menu/${id}`)
-    .then(res => {
-      notification.success({
-        message: 'ลบรายการอาหารสำเร็จ'
-      })
-      fetchFoodList()
-    })
-    .catch(err => {
-      notification.error({
-        message: 'ลบไม่สำเร็จ กรุณาลองอีกครั้ง'
-      })
-      console.log(err)
-    })
-    
-  }
-
-  const onclickEditFoodList = (id) => {
-    setEditID(id)
-    setIsShowCreate(false)
-  }
-
-  const onClickAddMenu = () => {
-    setIsShowCreate(true)
-    setEditID('')
+  const onclickOrderDetails = (id) => {
+    const OrderDetailsById = orderList.find(item => item.id === Number(id))
+    setDetails(OrderDetailsById)
   }
 
   return (
     <Row className='adminContentContainer'>
-      <Col span={17} className='adminContentBox'>
+      <Col span={15} className='adminContentBox'>
         <Row justify='center' className='itemOut'>
-          <Col span={12}>
-            <div className='titleTable'>จัดการรายการอาหาร</div>
-          </Col>
-          <Col span={12}>
-            <Row justify='end'>
-              <Col span={8} className='itemSide'>
-                <Button
-                  type='text'
-                  className='buttonCreateFood'
-                  onClick={onClickAddMenu}
-                >
-                  <Image src={Plus} className='iconSmall' preview={false} />
-                  เพิ่มเมนู
-                </Button>
-              </Col>
-            </Row>
+          <Col span={24}>
+            <div className='titleTable'>การสั่งอาหาร</div>
           </Col>
         </Row>
         <Row justify='center'>
           <Col span={24}>
-            <Table
-              dataSource={foodList}
-              columns={columns}
-              size='small'
-              pagination={{ pageSize: 10 }}
-            />
+            {orderList.length === 0 ? null :
+              <Table
+                dataSource={orderList}
+                columns={columns}
+                size='middle'
+                pagination={{ pageSize: 15 }}
+              />
+            }
           </Col>
         </Row>
       </Col>
-      <Col span={6} className='adminContentBox' style={{height:'100vh'}}>
-        {/* {isShowCreate ? <MenuCreate fetchFoodList={fetchFoodList} /> : <MenuEdit editID={editID} fetchFoodList={fetchFoodList} />} */}
+      <Col span={8} className='adminContentBox' style={{ height: '100vh' }}>
+        {details === '' ? null : <OrderDetails details={details} fetchOrderList={fetchOrderList} />}
       </Col>
     </Row>
   )

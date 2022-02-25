@@ -8,15 +8,24 @@ import ArrowLeft from '../../assets/ArrowLeft.png'
 import Code from '../../assets/Code.png'
 import Reward from '../../assets/Reward.png'
 import PowerOrange from '../../assets/PowerOrange.png'
+import { useUserContext } from '../../context/UserContext'
+import localStorageServices from '../../services/localStorageUserServices';
 
+const { removeToken } = localStorageServices
 function SidebarUser(props) {
+    const { userAction } = useUserContext()
     const location = useLocation()
     const navigate = useNavigate()
-   
+
     const onClickSidebar = (e) => {
+        if (e.key === '/') {
+            userAction.setRole('guest')
+            removeToken()
+        }
         props.onClickShowSidebar()
         navigate(e.key)
-    } 
+    }
+
 
     return (
         <Row className='sidebar'>
@@ -71,7 +80,7 @@ function SidebarUser(props) {
                                 ติดต่อเรา
                             </Menu.Item>
                             <Menu.Item
-                                key='/login'
+                                key='/'
                                 icon={<Image src={PowerOrange} className='iconSidebar' preview={false} />}
                             >
                                 ออกจากระบบ

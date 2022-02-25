@@ -3,7 +3,7 @@ const cloudinary = require('../config/cloud/cloudinary')
 
 const createFood = async (req, res) => {
     try {
-        if (req.body.file === 'undefined') {
+        if (req.body.file === 'null' || req.body.file === 'undefined') {
             const newFoodNotImage = await db.Food.create({
                 name: req.body.name,
                 price: req.body.price,

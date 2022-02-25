@@ -12,6 +12,7 @@ const manageMenuRoutes = require('./routes/manageMenu')
 const guestRoutes = require('./routes/guest')
 const cartRoutes = require('./routes/cart')
 const OrderRoutes = require('./routes/order')
+const discountRoutes = require('./routes/discount')
 
 
 require('dotenv').config()
@@ -40,6 +41,7 @@ app.use('/auth', authRoutes)
 app.use('/manage_menu', manageMenuRoutes)
 app.use('/cart', cartRoutes)
 app.use('/order', OrderRoutes)
+app.use('/discount', discountRoutes)
 
 db.sequelize.sync({ force: false })
     .then(() => {

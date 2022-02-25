@@ -71,7 +71,7 @@ function ManageMenuContent() {
       onFilter: (value, record) => record.status === value,
       render: text => {
         if (text === 'สินค้าหมด') {
-          return (<p style={{ color: 'red' }}>สินค้าหมด</p>)
+          return (<div style={{ color: 'red' }}>สินค้าหมด</div>)
         } else {
           return 'มีสินค้า'
         }

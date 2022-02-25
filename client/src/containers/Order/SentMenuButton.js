@@ -18,7 +18,7 @@ function SentMenuButton(props) {
                     <Col span={10}>
                         <Row justify='end' >
                             <Col >
-                                <div className='text'>{`${cart.total} บาท`}</div>
+                                <div className='text'>{`${Number(cart.total) - Number(cart.discount)} บาท`}</div>
                             </Col>
                         </Row>
                     </Col>

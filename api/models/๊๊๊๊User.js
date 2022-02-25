@@ -1,5 +1,3 @@
-const { Model } = require("sequelize/dist")
-
 module.exports = (Sequelize, Datatypes) => {
     const model = Sequelize.define('User', {
         username: {
@@ -40,9 +38,6 @@ module.exports = (Sequelize, Datatypes) => {
             foreignKey: "UserId"
         })
         model.hasMany(models.Order, {
-            foreignKey: "UserId"
-        })
-        model.hasMany(models.User_payment, {
             foreignKey: "UserId"
         })
     }

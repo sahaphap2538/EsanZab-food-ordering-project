@@ -6,12 +6,21 @@ import Payment from '../../assets/Payment.png'
 import ManageFood from '../../assets/ManageFood.png'
 import Power from '../../assets/Power.png'
 import styles from './SidebarAdmin.module.css'
+import { useUserContext } from '../../context/UserContext'
+import localStorageServices from '../../services/localStorageUserServices';
+
+const { removeToken } = localStorageServices
 
 function SidebarAdmin(props) {
+    const { userAction } = useUserContext()
     const currentPath = useLocation().pathname
     const navigate = useNavigate()
 
     const onClickSidebar = (e) => {
+        if (e.key === '/admin_login') {
+            userAction.setRole('guest')
+            removeToken()
+        }
         navigate(e.key)
     }
 
@@ -26,7 +35,7 @@ function SidebarAdmin(props) {
         >
             <Menu.Item
                 key='/admin_ordering'
-                icon={<Image src={Order} className='iconSidebar' preview={false}/>}
+                icon={<Image src={Order} className='iconSidebar' preview={false} />}
             >
                 <p className={styles.text}>การสั่งอาหาร</p>
             </Menu.Item>
@@ -34,7 +43,7 @@ function SidebarAdmin(props) {
                 key='/admin_payment'
                 icon={<Image src={Payment} className='iconSidebar' preview={false} />}
             >
-               <p className={styles.text}>การชำระเงิน</p>
+                <p className={styles.text}>การชำระเงิน</p>
             </Menu.Item>
             <Menu.Item
                 key='/admin_managemenu'
