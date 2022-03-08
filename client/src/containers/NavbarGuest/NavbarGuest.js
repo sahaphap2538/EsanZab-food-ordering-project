@@ -5,7 +5,9 @@ import User from '../../assets/User.png'
 import Vector from '../../assets/Vector.png'
 import Basket from '../../assets/Basket.png'
 import SidebarGuest from './SidebarGuest';
+import localStorageTableNo from '../../services/localStorageTableNo';
 
+const { getTableNo } = localStorageTableNo
 function NavbarGuest() {
     const [isShowSidebar, setIsShowSidebar] = useState(true)
 
@@ -23,7 +25,7 @@ function NavbarGuest() {
                         </Button>
                     </Col>
                     <Col span={12}>
-                        <Link to='/'>
+                        <Link to={`table/${getTableNo()}`}>
                             <Button type='text' className='buttonMain' style={{ fontSize: '24px' }}>
                                 EsanZab
                             </Button>
@@ -49,7 +51,7 @@ function NavbarGuest() {
                     </Col>
                 </Row>
             </Col>
-            { isShowSidebar? null: <SidebarGuest onClickShowSidebar={onClickShowSidebar} isShowSidebar={isShowSidebar}/>  }
+            {!isShowSidebar? <SidebarGuest onClickShowSidebar={onClickShowSidebar} isShowSidebar={isShowSidebar}/> : null}
         </Row>
     )
 }

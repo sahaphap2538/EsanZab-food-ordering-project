@@ -153,18 +153,6 @@
   font-size: 18px;
 }
 
-.quantity {
-  background-color: #FA4A0C;
-  color: white;
-  font-size: 14px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  text-align: center;
-  margin-top: 5px;
-
-}
-
 .itemIn {
   margin: 10px 0px;
 }
@@ -175,6 +163,10 @@
 
 .itemOut1 {
   margin: 20px 0px;
+}
+
+.itemOut2 {
+  margin: 50px 0px;
 }
 
 .itemSide {
@@ -309,4 +301,29 @@
   border-radius: 50%;
   text-align: center;
   padding: 1px 0px;
+}
+
+.quantity {
+  font-size: 16px;
+  width: 26px;
+  height: 26px;
+}
+.listContainer {
+  border-radius: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  height: 125px;
+}
+
+.foodDetailsContainer {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.foodStatusPayed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 36px;
+  color: red;
 }

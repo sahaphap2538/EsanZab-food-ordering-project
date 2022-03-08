@@ -7,9 +7,8 @@ module.exports = (Sequelize, DataTypes) => {
             type : DataTypes.INTEGER
         },
         ordered_datetime : {
-            type : DataTypes.DATE
+            type : DataTypes.STRING
         },
-
     },{
         tableName : 'order',
         timestamps : false

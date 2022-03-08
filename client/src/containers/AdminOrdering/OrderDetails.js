@@ -6,30 +6,30 @@ function OrderDetails(props) {
   const { details, fetchOrderList } = props
   const tableNo = details.Order.table_no
   const userName = details.Order.User.fname
-  const orderDate = details.Order.ordered_datetime.slice(0, 10)
-  const orderTime = details.Order.ordered_datetime.slice(11, 19)
+  const orderDateTime = details.Order.ordered_datetime
   const payMethod = details.pay_method
   const foodList = details.Order.Food
   const orderId = Number(details.Order.id)
   const priceTotal = details.total
+  const discount = details.discount
 
   const onClickServed = async (orderId) => {
-    await axios.put(`/order/status/${orderId}`, {
+    await axios.put(`/order/status/admin/${orderId}`, {
       status: 'served'
     })
-     .then( res => {
-      console.log(res.data)
-      notification.success({
-        message: 'ส่งอาหารให้ลูกค้าเรียบร้อยแล้วรอการชำระเงิน'
+      .then(res => {
+        console.log(res.data)
+        notification.success({
+          message: 'ส่งอาหารให้ลูกค้าเรียบร้อยแล้วรอการชำระเงิน'
+        })
+        fetchOrderList()
       })
-      fetchOrderList()
-     })
-     .catch( err => {
-       console.log(err)
-     })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
- 
+
   return (
     <Row justify='center'>
       <Col span={23}>
@@ -38,7 +38,7 @@ function OrderDetails(props) {
         <div className='text' style={{ fontSize: '20px' }}>
           <div>{`หมายเลขโต๊ะ :  ${tableNo}`}</div>
           <div>{`ชื่อลูกค้า :  ${userName}`}</div>
-          <div>{`เวลาสั่งอาหาร:  ${orderDate} ${orderTime}`}</div>
+          <div>{`เวลาสั่งอาหาร:  ${orderDateTime}`}</div>
           <div>{`วิธีการชำระเงิน :  ${payMethod}`}</div>
           <Divider className='itemIn' />
           {foodList.map(item => (
@@ -53,16 +53,22 @@ function OrderDetails(props) {
                   </Col>
                 </Row>
               </Col>
-              <Col span={11} style={{textAlign:'end'}}>
+              <Col span={11} style={{ textAlign: 'end' }}>
                 {`${Number(item.Order_item.quantity) * Number(item.price)}`}
               </Col>
             </Row>
           ))}
         </div>
         <Divider className='itemIn' />
-        <div className='title' style={{fontSize:'28px', textAlign:'end'}}>{`รวมสุทธิ ${priceTotal}`}</div>
+        <Row justify='end' >
+          <Col >
+            <div className='text'>{`รวม ${priceTotal} บาท`}</div>
+            <div className='text' style={{ fontSize: '16px' }}>{`ลด ${discount} บาท`}</div>
+            <div className='title' style={{ borderTop: 'solid' }}>{`รวมสุทธิ ${Number(priceTotal) - Number(discount)} บาท`}</div>
+          </Col>
+        </Row>
         <Button className='buttonMain itemOut1' onClick={() => onClickServed(orderId)}>
-            เสิร์ฟอาหารสำเร็จ
+          เสิร์ฟอาหารสำเร็จ
         </Button>
       </Col>
     </Row>

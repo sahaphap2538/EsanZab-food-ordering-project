@@ -51,7 +51,7 @@ function PaymentContent() {
   }, [])
 
   const fetchOrderList = async () => {
-    const response = await axios.get('/order')
+    const response = await axios.get('/order/admin')
     const newOrder = [...response.data].filter(item => item.Order.status === 'served')
     //change 'id' to 'key' for uniqe in antd <Table/>
     newOrder.forEach(item => {
@@ -92,7 +92,7 @@ function PaymentContent() {
           </Col>
         </Row>
       </Col>
-      <Col span={8} className='adminContentBox' style={{ height: '100vh' }}>
+      <Col span={8} className='adminContentBox' style={{ minHeight: '100vh' }}>
         {details === '' ? null : <OrderDetails details={details} fetchOrderList={fetchOrderList} />}
       </Col>
     </Row>

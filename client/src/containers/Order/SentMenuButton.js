@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Row, Col, Button } from 'antd'
-import axios from '../../config/axios';
 import { useCartContext } from '../../context/CartContext';
 
-function SentMenuButton(props) {
+function SentMenuButton() {
 
     const { cart } = useCartContext()
-
 
     return (
         <Row className='button_fix_bottom order' justify='center'>
@@ -23,7 +21,7 @@ function SentMenuButton(props) {
                         </Row>
                     </Col>
                 </Row>
-                <Button htmlType='submit' className='buttonMain' type='text'>
+                <Button htmlType='submit' className='buttonMain' type='text' id="credit-card" > 
                     สั่งอาหาร
                 </Button>
             </Col>

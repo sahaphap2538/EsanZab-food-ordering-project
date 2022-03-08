@@ -29,7 +29,7 @@ const getRole = () => {
 const getUserName = () => {
     const token = getToken()
     if (token) {
-        const fname = jwt_decode(token).fname 
+        const fname = jwt_decode(token).name 
         return fname
     }
 }

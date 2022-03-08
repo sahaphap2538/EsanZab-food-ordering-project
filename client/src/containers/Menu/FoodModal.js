@@ -6,6 +6,7 @@ import axios from '../../config/axios'
 import { Dialog } from "@reach/dialog";
 import styles from './Menu.module.css'
 import Cross from '../../assets/Cross.png'
+import FoodDefualt from '../../assets/FoodDefualt.png'
 import localStorageGuestServices from '../../services/localStorageGuestServices'
 import localStorageServices from '../../services/localStorageUserServices'
 
@@ -24,7 +25,7 @@ function FoodModal() {
     const { fetchCartData } = cartAction
 
     const fetchFoodData = async () => {
-        await axios.get('/manage_menu')
+        await axios.get('/manage_menu/user')
             .then(res => {
                 const foodById = res.data.find(item => item.id === Number(id))
                 setFoodItem(foodById)
@@ -161,7 +162,11 @@ function FoodModal() {
                             <div className='title'>{foodItem.name}</div>
                         </Col>
                         <Col span={24}>
-                            <Image src={foodItem.picture} className='imageModal' preview={false} />
+                            {foodItem.picture ?
+                                <Image src={foodItem.picture} className='imageModal' preview={false} />
+                                :
+                                <Image src={FoodDefualt} className='imageModal' preview={false} />
+                            }
                         </Col>
                         <Col span={24}>
                             <div className={styles.description_food} style={{ fontSize: '18px' }}>{`ราคา ${foodItem.price} บาท`}</div>

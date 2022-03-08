@@ -5,12 +5,14 @@ import Home from '../../assets/Home.png'
 import MenuIcon from '../../assets/Menu.png'
 import BasketOrange from '../../assets/BasketOrange.png'
 import UserOrange from '../../assets/UserOrange.png'
-import Contact from '../../assets/Contact.png'
 import ArrowLeft from '../../assets/ArrowLeft.png'
+import FoodDetails from '../../assets/FoodDetails.png'
 import localStorageGuestServices from '../../services/localStorageGuestServices'
+import localStorageTableNo from '../../services/localStorageTableNo';
 import axios from '../../config/axios';
 
-const {setGuestID, getGuestID } = localStorageGuestServices
+const { setGuestID, getGuestID } = localStorageGuestServices
+const { getTableNo} = localStorageTableNo
 
 function SidebarGuest(props) {
     const location = useLocation()
@@ -35,7 +37,7 @@ function SidebarGuest(props) {
                         console.log(err)
                     })
             }
-           
+
         } else {
             props.onClickShowSidebar()
             navigate(e.key)
@@ -65,7 +67,7 @@ function SidebarGuest(props) {
                             onClick={onClickSidebar}
                         >
                             <Menu.Item
-                                key='/'
+                                key={`/table/${getTableNo()}`}
                                 icon={<Image src={Home} className='iconSidebar' preview={false} />}
                             >
                                 หน้าแรก
@@ -83,22 +85,23 @@ function SidebarGuest(props) {
                                 ตะกร้าอาหาร
                             </Menu.Item>
                             <Menu.Item
+                                key='/order_details'
+                                icon={<Image src={FoodDetails} className='iconSidebar' preview={false} />}
+                            >
+                                ใบเสร็จอาหาร
+                            </Menu.Item>
+                            <Menu.Item
                                 key='/login'
                                 icon={<Image src={UserOrange} className='iconSidebar' preview={false} />}
                             >
                                 เข้าสู่ระบบ
-                            </Menu.Item>
-                            <Menu.Item
-                                key='/contact'
-                                icon={<Image src={Contact} className='iconSidebar' preview={false} />}
-                            >
-                                ติดต่อเรา
                             </Menu.Item>
                         </Menu>
                     </Col>
                 </Row>
             </Col>
         </Row>
+
     )
 }
 

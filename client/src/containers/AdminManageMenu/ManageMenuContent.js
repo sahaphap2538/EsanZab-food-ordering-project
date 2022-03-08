@@ -5,19 +5,24 @@ import MenuEdit from './MenuEdit';
 import axios from '../../config/axios';
 import Delete from '../../assets/Delete.png'
 import Plus from '../../assets/Plus.png'
+import FoodDefualt from '../../assets/FoodDefualt.png'
 
 
 function ManageMenuContent() {
   const [foodList, setFoodList] = useState([])
   const [isShowCreate, setIsShowCreate] = useState(true)
   const [editID, setEditID] = useState('')
-
+  const [foodName, setFoodName] = useState('')
+  const [foodPrice, setFoodPrice] = useState('')
+  const [foodCategory, setFoodCategory] = useState('')
+  const [foodStatus, setFoodStatus] = useState('')
+  
   const columns = [
     {
       title: 'ภาพอาหาร',
       dataIndex: 'picture',
       key: 'picture',
-      render: link => (<Image className='foodImage' src={link} />)
+      render: link => !(link)?(<Image className='foodImage' src={FoodDefualt}/>):(<Image className='foodImage' src={link} />)
     },
     {
       title: 'ชื่ออาหาร',
@@ -137,8 +142,13 @@ function ManageMenuContent() {
   }
 
   const onclickEditFoodList = (id) => {
+    const targetFood = foodList.find(item => item.id === Number(id))
+    setFoodName(targetFood.name)
+    setFoodPrice(targetFood.price)
+    setFoodCategory(targetFood.category)
+    setFoodStatus(targetFood.status)
+    setIsShowCreate(false) 
     setEditID(id)
-    setIsShowCreate(false)
   }
 
   const onClickAddMenu = () => {
@@ -180,7 +190,19 @@ function ManageMenuContent() {
         </Row>
       </Col>
       <Col span={6} className='adminContentBox' style={{height:'100vh'}}>
-        {isShowCreate ? <MenuCreate fetchFoodList={fetchFoodList} /> : <MenuEdit editID={editID} fetchFoodList={fetchFoodList} />}
+        {isShowCreate ? <MenuCreate fetchFoodList={fetchFoodList} /> 
+        : <MenuEdit 
+          editID={editID}
+          fetchFoodList={fetchFoodList}
+          foodName={foodName}
+          foodPrice={foodPrice}
+          foodCategory={foodCategory}
+          foodStatus={foodStatus}
+          setFoodName={setFoodName}
+          setFoodPrice={setFoodPrice}
+          setFoodCategory={setFoodCategory}
+          setFoodStatus={setFoodStatus}
+        />}
       </Col>
     </Row>
   )

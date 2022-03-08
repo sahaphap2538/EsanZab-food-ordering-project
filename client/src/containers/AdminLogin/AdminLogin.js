@@ -27,9 +27,6 @@ function AdminLogin() {
                 console.log(res)
                 setToken(res.data.token)
                 userAction.setRole('admin')
-                notification.success({
-                    message: 'เข้าสู่ระบบสำเร็จ'
-                })
                 navigate('/admin_ordering')
             })
             .catch(err => {

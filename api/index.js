@@ -1,10 +1,14 @@
+require('dotenv').config()
+require('./config/passport/passport-jwt')
+require('./config/passport/passport-facebook')
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const db = require("./models")
 const cookieSession = require('cookie-session')
 const passport = require('passport')
-const jwtAuthenication = passport.authenticate('jwt', { session: false })
+// const jwtAuthenication = passport.authenticate('jwt', { session: false })
 
 const userRoutes = require('./routes/user')
 const authRoutes = require("./routes/auth")
@@ -13,11 +17,7 @@ const guestRoutes = require('./routes/guest')
 const cartRoutes = require('./routes/cart')
 const OrderRoutes = require('./routes/order')
 const discountRoutes = require('./routes/discount')
-
-
-require('dotenv').config()
-require('./config/passport/passport-jwt')
-require('./config/passport/passport-facebook')
+const creditRoutes = require('./routes/credit')
 
 app.use(cors({
     origin: process.env.CLIENT_URL,
@@ -42,6 +42,7 @@ app.use('/manage_menu', manageMenuRoutes)
 app.use('/cart', cartRoutes)
 app.use('/order', OrderRoutes)
 app.use('/discount', discountRoutes)
+app.use('/credit', creditRoutes )
 
 db.sequelize.sync({ force: false })
     .then(() => {

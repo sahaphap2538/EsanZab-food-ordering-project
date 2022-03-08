@@ -1,6 +1,6 @@
 import React from 'react';
-import facebook from '../../assets/FacebookLogo.png'
-import google from '../../assets/GoogleLogo.png'
+// import facebook from '../../assets/FacebookLogo.png'
+// import google from '../../assets/GoogleLogo.png'
 import styles from './Login.module.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Row, Col, Typography, Form, Input, Button, Image, notification } from 'antd'
@@ -19,9 +19,9 @@ function Login() {
     const { userAction } = useUserContext()
     const navigate = useNavigate()
 
-    const loginWithFacebook = async () => {
-        window.open('http://localhost:8000/auth/facebook', '_self')
-    }
+    // const loginWithFacebook = async () => {
+    //     window.open('http://localhost:8000/auth/facebook', '_self')
+    // }
 
     const onClickLoginGuest = async () => {
         if (getGuestID()) {
@@ -29,7 +29,7 @@ function Login() {
         } else {
             await axios.post('/guest/login', {
                 fname: 'Guest',
-                role: 'guest'
+                role: 'guest',
             })
                 .then(res => {
                     console.log(res.data)
@@ -120,7 +120,7 @@ function Login() {
                 </Form>
                 <Row className='itemOut'>
                     <Text className='text'>
-                        คุณยังไม่มีบัญชีใช่หรือไม่?
+                        คุณยังไม่มีบัญชีใช่ไหม?
                         <NavLink
                             to='/register'
                             style={isActive => ({
@@ -132,7 +132,7 @@ function Login() {
                         </NavLink>
                     </Text>
                 </Row>
-                <Row className='itemOut'>
+                {/* <Row className='itemOut'>
                     <Button type='text' className={styles.facebookButton} onClick={loginWithFacebook}>
                         <Image
                             src={facebook}
@@ -150,8 +150,8 @@ function Login() {
                         />
                         <div style={{ marginLeft: '10px' }}>เข้าสู่ระบบด้วย &nbsp;Google</div>
                     </Button>
-                </Row>
-                <Row className='itemOut' justify='center'>
+                </Row> */}
+                <Row className='itemOut2' justify='center'>
                     <Col className='text'>หรือ</Col>
                 </Row>
                 <Row className='itemOut'>

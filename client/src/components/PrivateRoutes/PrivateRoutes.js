@@ -8,9 +8,9 @@ import NavbarAdmin from '../../containers/NavbarAdmin/NavbarAdmin';
 import FoodModal from '../../containers/Menu/FoodModal';
 
 function PrivateRoutes() {
-    // const { user } = useUserContext()
-    // const role = user.role || 'guest'
-    const role = 'admin'
+    const { user } = useUserContext()
+    const role = user.role || 'guest'
+    // const role = 'admin'
     const allowedRoutes = ConfigRoutes[role].allowedRoutes
     const redirectRoutes = ConfigRoutes[role].redirectRoutes
     const location = useLocation()
@@ -18,9 +18,10 @@ function PrivateRoutes() {
 
     const [isHideSidebar, setIsHideSidebar] = useState(true)
 
+
     const NavbarFromRole = () => {
         if (role === 'user') {
-            return (<NavbarUser />)
+            return (<NavbarUser/>)
         } else if (role === 'admin') {
             return (<NavbarAdmin isHideSidebar={isHideSidebar} setIsHideSidebar={setIsHideSidebar} />)
         } else {
@@ -42,7 +43,7 @@ function PrivateRoutes() {
             {/* Show the modal when a `backgroundLocation` is set */}
             {backgroundLocation && (
                 <Routes>
-                    <Route path="/food/:id" element={<FoodModal/>}/>
+                    <Route path="/food/:id" element={<FoodModal />} />
                 </Routes>
             )}
             {NavbarFromRole()}

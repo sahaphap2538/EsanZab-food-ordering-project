@@ -12,6 +12,7 @@ import ThanksPage from "../components/ThanksPage/ThanksPage";
 import UserDiscountPage from "../components/UserDiscountPage/UserDiscountPage";
 import UserRewardPage from "../components/UserRewardPage/UserRewardPage";
 import FoodModal from "../containers/Menu/FoodModal";
+import OrderDetailsPage from "../components/OrderDetailsPage/OrderDetailsPage";
 
 const components = {
     adminLogin: {
@@ -35,7 +36,7 @@ const components = {
         component: DiscountPage
     },
     home: {
-        url: "/",
+        url: "table/:table_no",
         component: HomePage
     },
     login: {
@@ -53,6 +54,10 @@ const components = {
     order: {
         url: "/order",
         component: OrderPage
+    },
+    orderDetails: {
+        url: "/order_details",
+        component: OrderDetailsPage
     },
     register: {
         url: "/register",
@@ -82,9 +87,10 @@ const config = {
             components.order,
             components.thaks,
             components.adminLogin,
-            components.food
+            components.food,
+            components.orderDetails
         ],
-        redirectRoutes: "/"
+        redirectRoutes: "table/:table_no"
     },
     user: {
         allowedRoutes : [
@@ -94,7 +100,8 @@ const config = {
             components.discount,
             components.userDiscount,
             components.userReward,
-            components.food
+            components.food,
+            components.orderDetails
         ],
         redirectRoutes: "/menu"
     },

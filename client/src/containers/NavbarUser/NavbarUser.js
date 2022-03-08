@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { Button, Row, Col, Image } from 'antd'
 import Vector from '../../assets/Vector.png'
 import Basket from '../../assets/Basket.png'
 import SidebarUser from './SidebarUser';
-import localStorageUserServices from '../../services/localStorageUserServices';
+import localStorageServices from '../../services/localStorageUserServices';
 
-const { getUserName } = localStorageUserServices
+const { getUserName } = localStorageServices
 
 function NavbarUser() {
-    const username = getUserName()
     const [isShowSidebar, setIsShowSidebar] = useState(true)
 
     const onClickShowSidebar = () => {
@@ -26,16 +25,16 @@ function NavbarUser() {
                         </Button>
                     </Col>
                     <Col span={12}>
-                        <Row >
-                            <Col span={12}>
+                        <Row justify='center'>
+                            <Col span={6}>
                                 <Link to='/order'>
                                     <Button type='text' className='buttonMain'>
                                         <Image src={Basket} className='iconHeader' preview={false}/>
                                     </Button>
                                 </Link>
                             </Col>
-                            <Col span={12}>
-                                <p className='text' style={{color:'white'}}>{username}</p>
+                            <Col span={18} style={{textAlign:'center'}}>
+                                <div className='text' style={{color:'white', marginTop:'16px'}}>{getUserName()}</div>
                             </Col>
                         </Row>
                     </Col>

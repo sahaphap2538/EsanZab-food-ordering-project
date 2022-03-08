@@ -1,0 +1,38 @@
+{
+  "name": "omise",
+  "version": "0.8.5",
+  "description": "Omise Node.js bindings",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "jscs": "jscs *.js lib/*.js test/*.js",
+    "test": "mocha test",
+    "test:watch": "npm test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omise/omise-node.git"
+  },
+  "author": "Omise <support@omise.co> (https://omise.co/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/omise/omise-node/issues"
+  },
+  "homepage": "https://github.com/omise/omise-node",
+  "dependencies": {
+    "@types/bluebird": "^3.5.30",
+    "@types/node": "^8.10.60",
+    "bluebird": "^2.9.12",
+    "https-proxy-agent": "^2.2.4",
+    "lodash": "^4.17.19"
+  },
+  "devDependencies": {
+    "chai": "^2.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.9.1",
+    "mocha": "^7.1.1",
+    "nock": "^9.6.1",
+    "tslint": "^5.20.1",
+    "typescript": "^2.5.3"
+  }
+}

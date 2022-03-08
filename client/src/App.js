@@ -5,7 +5,7 @@ import PrivateRoutes from './components/PrivateRoutes/PrivateRoutes';
 function App() {
   return (
     <div className='App'>
-      <PrivateRoutes/>
+      <PrivateRoutes />
     </div>
   );
 }

@@ -1,40 +1,59 @@
 import React, { useState } from 'react';
-import { Row, Col, Divider, Form, Button, Input, Select, notification, } from 'antd'
+import { Row, Col, Divider, Form, Button, Input, notification, } from 'antd'
 import axios from '../../config/axios'
 
-const { Option } = Select
-
 function MenuEdit(props) {
+    const { editID, fetchFoodList, foodName, foodPrice, foodCategory, foodStatus, setFoodName, setFoodPrice, setFoodCategory, setFoodStatus } = props
+
+
     const [file, setFile] = useState(null)
 
     const onChangeImageFile = (e) => {
         setFile(e.target.files[0])
     }
 
+    const onChangFoodName = (e) => {
+        setFoodName(e.target.value)
+    }
+
+    const onChangeFoodPrice = (e) => {
+        setFoodPrice(e.target.value)
+    }
+
+    const onChangeFoodCategory = (e) => {
+
+        setFoodCategory(e.target.value)
+    }
+
+    const onChangeFoodStatus = (e) => {
+        setFoodStatus(e.target.value)
+    }
+
     const onFinishEditMenu = async (values) => {
         const formData = new FormData()
         formData.append('file', file)
-        formData.append('name', values.name)
-        formData.append('price', values.price)
-        formData.append('category', values.category)
-        formData.append('status', values.status)
+        formData.append('name', foodName)
+        formData.append('price', foodPrice)
+        formData.append('category', foodCategory)
+        formData.append('status', foodStatus)
 
-        await axios.put(`/manage_menu/${props.editID}`, formData, {
+        await axios.put(`/manage_menu/${editID}`, formData, {
             headers: {
-              "Content-Type": "multipart/form-data"
-            }})
+                "Content-Type": "multipart/form-data"
+            }
+        })
             .then(res => {
-              notification.success({
-                message: 'แก้ไขรายการอาหารสำเร็จ'
-              })
-              console.log(res.data)
-              props.fetchFoodList()
+                notification.success({
+                    message: 'แก้ไขรายการอาหารสำเร็จ'
+                })
+                console.log(res.data)
+                fetchFoodList()
             })
             .catch(err => {
-              notification.error({
-                message: 'แก้ไขรายการอาหารไม่สำเร็จ กรุณาลองอีกครั้ง'
-              })
-              console.log(err)
+                notification.error({
+                    message: 'แก้ไขรายการอาหารไม่สำเร็จ กรุณาลองอีกครั้ง'
+                })
+                console.log(err)
             })
     }
 
@@ -47,53 +66,49 @@ function MenuEdit(props) {
                 <Divider className='itemIn' />
                 <Form
                     name='editMenu'
-                    labelCol={{ span: 24 }}
-                    wrapperCol={{ span: 24 }}
                     onFinish={onFinishEditMenu}
                 >
-                    <Form.Item
-                        label='ภาพอาหาร'
-                        name='picture'
+                    <div>ภาพอาหาร</div>
+                    <Input
                         className='itemIn'
-                    >
-                        <Input type='file' onChange={onChangeImageFile} style={{ border: 'none' }} />
-                    </Form.Item>
-                    <Form.Item
-                        label='ชื่ออาหาร'
-                        name='name'
+                        type='file'
+                        onChange={onChangeImageFile}
+                        style={{ border: 'none' }}
+                    />
+                    <div >ชื่ออาหาร</div>
+                    <Input
+                        value={foodName}
+                        onChange={onChangFoodName}
                         className='itemIn'
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label='ราคา'
-                        name='price'
+                    />
+                    <div>ราคา</div>
+                    <Input
+                        value={foodPrice}
+                        onChange={onChangeFoodPrice}
                         className='itemIn'
+                    />
+                    <div>หมวดหมู่</div>
+                    <select
+                        value={foodCategory}
+                        className='ant-input itemIn'
+                        style={{width:'100%'}}
+                        onChange={onChangeFoodCategory}
                     >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label='หมวดหมู่'
-                        name='category'
-                        className='itemIn'
+                        <option value='เมนูแนะนำ'>เมนูแนะนำ</option>
+                        <option value='อาหารคาว'>อาหารคาว</option>
+                        <option value='ของหวาน'>ของหวาน</option>
+                        <option value='เครื่องดื่ม'>เครื่องดื่ม</option>
+                    </select>
+                    <div>สถานะ</div>
+                    <select
+                        value={foodStatus}
+                        className='ant-input itemIn'
+                        style={{width:'100%'}}
+                        onChange={onChangeFoodStatus}
                     >
-                        <Select>
-                            <Option value='เมนูแนะนำ'>เมนูแนะนำ</Option>
-                            <Option value='อาหารคาว'>อาหารคาว</Option>
-                            <Option value='ของหวาน'>ของหวาน</Option>
-                            <Option value='เครื่องดื่ม'>เครื่องดื่ม</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label='สถานะ'
-                        name='status'
-                        className='itemIn'
-                    >
-                        <Select>
-                            <Option value='มีสินค้า'>มีสินค้า</Option>
-                            <Option value='สินค้าหมด'>สินค้าหมด</Option>
-                        </Select>
-                    </Form.Item>
+                        <option value='มีสินค้า'>มีสินค้า</option>
+                        <option value='สินค้าหมด'>สินค้าหมด</option>
+                    </select>
                     <Form.Item className='itemOut'>
                         <Button
                             htmlType='submit'

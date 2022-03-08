@@ -37,7 +37,7 @@ function NavbarAdmin(props) {
                 </Button>
               </Col>
               <Col span={12}>
-                <p className='text' style={{ color: 'white' }}>{adminName}</p>
+                <p className='text' style={{ color: 'white',textAlign:'center',marginTop:'16px' }}>{adminName}</p>
               </Col>
             </Row>
           </Col>

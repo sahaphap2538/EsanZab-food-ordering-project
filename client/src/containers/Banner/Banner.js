@@ -2,12 +2,16 @@ import React from 'react';
 import Banner1 from '../../assets/Food1.png'
 import Banner2 from '../../assets/Food2.png'
 import Banner3 from '../../assets/Food3.png'
+import zab20 from '../../assets/zab20.png'
 import { Link } from 'react-router-dom'
 import { Row, Col, Button } from 'antd'
 import { Carousel } from 'react-carousel-minimal'
 import styles from './Banner.module.css'
 
 const data = [
+    {
+        image: zab20
+    },
     {
         image: Banner1
     },
@@ -28,7 +32,7 @@ function Banner() {
                         data={data}
                         width= '100%'
                         height= '500px'
-                        time={5000}
+                        time={3000}
                         automatic={true}
                         slideBackgroundColor="darkgrey"
                         slideImageFit="cover"

@@ -13,7 +13,11 @@ const { removeToken } = localStorageServices
 
 function SidebarAdmin(props) {
     const { userAction } = useUserContext()
-    const currentPath = useLocation().pathname
+    let currentPath = useLocation().pathname
+    if (currentPath === '/admin_login') {
+        currentPath = '/admin_ordering'
+    }
+
     const navigate = useNavigate()
 
     const onClickSidebar = (e) => {
@@ -24,6 +28,7 @@ function SidebarAdmin(props) {
         navigate(e.key)
     }
 
+    
     return (
         <Menu
             className='sidebar'

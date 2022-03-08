@@ -4,15 +4,11 @@ import { Row, Col, List, Tabs, Image, Divider } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky';
 import styles from './Menu.module.css'
 import GotoCartButton from './GotoCartButton';
+import FoodDefualt from '../../assets/FoodDefualt.png'
 import axios from '../../config/axios';
 import { useCartContext } from '../../context/CartContext';
-// import localStorageGuestServices from '../../services/localStorageGuestServices';
-// import localStorageServices from '../../services/localStorageUserServices';
 
 const { TabPane } = Tabs;
-// const { getGuestID } = localStorageGuestServices
-// const { getRole, getUserID} = localStorageServices
-
 
 const renderTabBar = (props, DefaultTabBar) => (
     <Sticky bottomOffset={80}>
@@ -28,7 +24,7 @@ function Menu() {
     const { fetchCartData } = cartAction
 
     const [menuData, setMenuData] = useState([])
-    const quantityTotal = cart.Food.reduce( (prev,current) => prev + Number(current.Cart_item.quantity) , 0) 
+    const quantityTotal = cart.Food.reduce((prev, current) => prev + Number(current.Cart_item.quantity), 0)
 
     const fetchMenuData = async () => {
         await axios.get('/cart/food')
@@ -37,7 +33,6 @@ function Menu() {
                 setMenuData([...res.data])
             })
     }
-
 
     useEffect(() => {
         fetchCartData()
@@ -56,7 +51,15 @@ function Menu() {
         xl: 4
     }
 
-
+    const foodQuantity = (foodId) => {
+        const targetFood = [...cart.Food].find(item => item.id === Number(foodId))
+        if (targetFood){
+            return <div className='quantityModal quantity'>{targetFood.Cart_item.quantity}</div>
+        } else {
+            return null
+        }
+    }
+    
     const filterCategoryMenu = (category) => {
         const menu = [...menuData]
         const categoryMenu = menu.filter(item => item.category === category)
@@ -87,7 +90,9 @@ function Menu() {
                                         <Col span={20} style={{ margin: '10px 0' }}>
                                             <Row justify='start' gutter={16}>
                                                 <Col style={{ marginLeft: '10px' }}>
-                                                    <Image src={item.picture} className='foodImage' preview={false} />
+                                                    {!(item.picture) ?
+                                                        <Image src={FoodDefualt} className='foodImage' preview={false}  /> :
+                                                        <Image src={item.picture} className='foodImage' preview={false} />}
                                                 </Col>
                                                 <Col>
                                                     <div className={styles.title_food}>{item.name}</div>
@@ -96,7 +101,7 @@ function Menu() {
                                             </Row>
                                         </Col>
                                         <Col span={3}>
-                                            {/* <div className='quantity'>{}</div> */}
+                                            {foodQuantity(item.id)}
                                         </Col>
                                     </Row>
                                 </List.Item>
@@ -110,7 +115,7 @@ function Menu() {
 
     return (
         <>
-            <Row justify='center' style={{marginBottom:'78px'}}>
+            <Row justify='center' style={{ marginBottom: '78px' }}>
                 <Col span={24}>
                     <Row justify='space-around'>
                         <StickyContainer style={{ width: '100%' }}>
@@ -147,7 +152,7 @@ function Menu() {
                     </Row>
                 </Col>
             </Row>
-            <GotoCartButton quantityTotal={quantityTotal}/>
+            <GotoCartButton quantityTotal={quantityTotal} />
         </>
     )
 }
