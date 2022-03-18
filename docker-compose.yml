@@ -1,0 +1,66 @@
+version: '3.7'
+
+services:
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    image: esanzab-api101
+    container_name: esanzab-node-api
+    command: /app/node_modules/.bin/nodemon index.js
+    volumes:
+      - ./api/:/app
+      - /app/node_modules
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file: ./api/.env
+    environment:
+       NODE_ENV : "development"
+    external_links:
+      - db
+    networks:
+      - esanzab-network
+  db:
+    image: mysql
+    command: --default-authentication-plugin=Sahaphap0819978916!
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'database_esanzab_foodordering'
+      MYSQL_ROOT_PASSWORD: "Sahaphap0819978916!"
+    volumes:
+      - my-db:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    # expose:
+    #   # Opens port 3306 on the container
+    #   - "3306"
+    networks:
+      - esanzab-network
+  client:
+    image: esanzab-client101
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: esanzab-react-client
+    command: npm start
+    volumes:
+      - ./client/:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    networks:
+      - esanzab-network
+
+networks:
+  esanzab-network:
+    driver: bridge
+
+volumes:
+  my-db:
+  node_modules:
+  web-root:
+    driver: local
